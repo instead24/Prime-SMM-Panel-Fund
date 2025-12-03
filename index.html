@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html id="theme_21" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add funds</title>
+  
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="image/ico" href="https://storage.perfectcdn.com/c0sbr3/wcoa62nx8g5jctpb.ico" />
+  
+  <!-- CSS Styles -->
+  <style>
+    /* --- ORIGINAL STYLES --- */
+    .integration-fixed {
+      position: fixed;
+      z-index: 10000000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 24px;
+      row-gap: 12px;
+    }
+    .integration-fixed__top-left { top: 0; left: 0; }
+    .integration-fixed__top-right { top: 0; right: 0; }
+    .integration-fixed__bottom-left { bottom: 0; left: 0; }
+    .integration-fixed__bottom-right { bottom: 0; right: 0; }
+    .form-group .subtitle {
+        display: block;
+        font-size: 0.85em;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+
+    /* Button Glow Effect */
+    .component_button_submit .btn-big-primary {
+        transition: box-shadow 0.3s ease-in-out, transform 0.1s ease-out;
+    }
+    .component_button_submit .btn-big-primary:not(:disabled) {
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        animation: pulse 1.5s infinite alternate;
+    }
+    .component_button_submit .btn-big-primary:not(:disabled):hover,
+    .component_button_submit .btn-big-primary:not(:disabled):focus {
+        box-shadow: 0 0 15px rgba(0, 123, 255, 0.8), 0 0 25px rgba(0, 123, 255, 0.4);
+        transform: translateY(-1px);
+    }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); }
+        100% { box-shadow: 0 0 12px rgba(0, 123, 255, 0.8); }
+    }
+
+    /* --- CONGRATULATIONS PAGE STYLES --- */
+    :root {
+        --success-color: #28a745;
+        --primary-text: #343a40;
+        --secondary-text: #6c757d;
+        --circle-color: #007bff; 
+    }
+    .congrats-container {
+        width: 90%;
+        max-width: 500px;
+        padding: 40px 30px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        animation: fadeIn 0.8s ease-out;
+        margin: 50px auto;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .icon-box {
+        width: 80px;
+        height: 80px;
+        background-color: var(--circle-color);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 25px;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4); 
+        transform: scale(0); 
+        animation: scaleIn 0.5s forwards 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    @keyframes scaleIn { to { transform: scale(1); } }
+    .icon-box span { color: #fff; font-size: 40px; font-weight: bold; }
+    .congrats-container h1 { color: var(--success-color); font-size: 2.2rem; margin-bottom: 10px; }
+    .message { font-size: 1.2rem; margin-bottom: 5px; color: var(--primary-text); }
+    .details {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--success-color);
+        margin-bottom: 30px;
+        background-color: rgba(40, 167, 69, 0.05);
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-continue {
+        background-color: var(--circle-color);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.1s ease;
+        width: 100%;
+        max-width: 250px;
+        margin-top: 20px;
+    }
+    .btn-continue:hover { background-color: #0056b3; transform: translateY(-2px); }
+    .rss-info { margin-top: 30px; font-size: 0.85rem; color: var(--secondary-text); }
+    .rss-info a { color: var(--secondary-text); text-decoration: underline; transition: color 0.3s; }
+    .rss-info a:hover { color: var(--primary-text); }
+    .deposit-value { opacity: 0; transition: opacity 0.5s ease-in; display: inline-block; }
+    .deposit-value.visible { opacity: 1; }
+
+    /* --- INVALID PAYMENT PAGE STYLES (Integrated) --- */
+    /* Scoped specific variables for invalid container */
+    #invalid-payment-container {
+        --inv-card-bg: #ffffff;
+        --inv-text-main: #1f2937;
+        --inv-text-secondary: #6b7280;
+        --inv-error-red: #ef4444;
+        --inv-error-bg: #fef2f2;
+        --inv-primary-blue: #3b82f6;
+        --inv-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .payment-card {
+        background: var(--inv-card-bg);
+        width: 100%;
+        max-width: 420px;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: var(--inv-shadow);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s;
+    }
+
+    .payment-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: var(--inv-error-red);
+    }
+
+    .icon-container-invalid {
+        width: 80px;
+        height: 80px;
+        background-color: var(--inv-error-bg);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 20px auto;
+        position: relative;
+    }
+
+    .icon-cross {
+        width: 40px;
+        height: 40px;
+        position: relative;
+    }
+
+    .icon-cross::before, .icon-cross::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        height: 40px;
+        background-color: var(--inv-error-red);
+        border-radius: 2px;
+        left: 50%;
+        top: 0;
+    }
+
+    .icon-cross::before { transform: translateX(-50%) rotate(45deg); }
+    .icon-cross::after { transform: translateX(-50%) rotate(-45deg); }
+
+    .payment-card h1 {
+        color: var(--inv-text-main);
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .payment-card p {
+        color: var(--inv-text-secondary);
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 25px;
+    }
+
+    .error-details {
+        background-color: #f8fafc;
+        border: 1px dashed #cbd5e1;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .error-code {
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        color: var(--inv-text-secondary);
+        font-weight: 600;
+    }
+
+    .copy-btn {
+        background: none;
+        border: none;
+        color: var(--inv-primary-blue);
+        font-size: 12px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .copy-btn:hover { text-decoration: underline; }
+
+    .btn-inv {
+        width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-inv-primary {
+        background-color: var(--inv-text-main);
+        color: white;
+        margin-bottom: 12px;
+    }
+    .btn-inv-primary:hover {
+        background-color: black;
+        transform: translateY(-1px);
+    }
+    .btn-inv-secondary {
+        background-color: transparent;
+        color: var(--inv-text-secondary);
+        border: 1px solid #e5e7eb;
+    }
+    .btn-inv-secondary:hover {
+        background-color: #f9fafb;
+        color: var(--inv-text-main);
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        50% { transform: translateX(10px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+    }
+    .shake-animation { animation: shake 0.4s ease-in-out; }
+
+    .loader {
+        display: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #fff;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+    }
+    @keyframes rotation {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .hidden { display: none; }
+    
+    .tooltip-inv {
+        position: absolute;
+        background: #333;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 11px;
+        top: 145px;
+        right: 50px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+    .tooltip-inv.show { opacity: 1; }
+
+  </style>
+
+  <!-- External scripts/styles from original -->
+  <link rel="stylesheet" type="text/css" href="https://storage.perfectcdn.com/global/atg8oy6k63y60mi2.css">
+  <link rel="stylesheet" type="text/css" href="https://storage.perfectcdn.com/c0sbr3/p83lkt1rba78cs7w.css">
+  <script>window.modules = {};</script>
+</head>
+
+<body class="body body-internal">
+<div class="wrapper wrapper-sidebar-navbar">
+   <!-- Navbar & Sidebar Code (Minimizing for brevity as it was standard SMM panel code) -->
+   <div id="block_52" class="component_private_navbar">
+    <span class="component_private_navbar ">
+      <div class="component-navbar-private__wrapper component_private_sidebar ">
+         <div class="sidebar-block__top component-navbar component-navbar__navbar-private editor__component-wrapper ">
+            <div>
+               <nav class="navbar navbar-expand-lg navbar-light">
+                  <div class="navbar-private__header">
+                    <div class="sidebar-block__top-brand">
+                        <div class="component-navbar-logo">
+                              <a href="/"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgk_qLLB_pMBOvLb-F7v0V4teKzGRxWCRnZZHk_qQILbitmEiMSrgkvZDaRYAnnv2jmkLJypb0_EiU8hy0XFCYRd9GBYbbEOB86FCMl0aEsA0WVzE-TcRsPhwRva13F9Xfqzcl_hC80IYo08S39t5HWhKfosVLrBFqQCeuCVLNm54Zcoky-mfaxHslvqZQ/s500/20251203_122745.png" class="sidebar-block__top-logo" alt="" title=""></a>
+                        </div>
+                    </div>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-52">
+                    <span class="navbar-burger"><span class="navbar-burger-line"></span></span>
+                  </button>
+                  </div>
+                 <div class="collapse navbar-collapse" id="navbar-collapse-52">
+                     <div class="component-navbar-collapse-divider"></div>
+                     <div class="d-flex component-navbar-collapse">
+                        <ul class="navbar-nav navbar-nav-sidebar-menu">
+                            <li class="nav-item component-navbar-nav-item component-navbar-private-nav-item"><a class="component-navbar-nav-link component-navbar-nav-link__navbar-private" href="/">New order</a></li>
+                            <li class="nav-item component-navbar-nav-item component-navbar-private-nav-item"><a class="component-navbar-nav-link component-navbar-nav-link__navbar-private component-navbar-nav-link-active__navbar-private" href="/addfunds">Add funds</a></li>
+                            <!-- Other menu items -->
+                        </ul>
+                     </div>
+                  </div>
+               </nav>
+            </div>
+         </div>
+      </div>
+   </span>
+   <span class="component_private_sidebar">
+      <div class="component-sidebar_wrapper">
+         <div class="sidebar-block__left component-sidebar component-sidebar-with-navbar component_private_navbar editor__component-wrapper">
+           <div class="component-sidebar__menu">
+            <div class="component-sidebar__menu-logo">
+                 <a href="/en" class="component-navbar-logo" style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgk_qLLB_pMBOvLb-F7v0V4teKzGRxWCRnZZHk_qQILbitmEiMSrgkvZDaRYAnnv2jmkLJypb0_EiU8hy0XFCYRd9GBYbbEOB86FCMl0aEsA0WVzE-TcRsPhwRva13F9Xfqzcl_hC80IYo08S39t5HWhKfosVLrBFqQCeuCVLNm54Zcoky-mfaxHslvqZQ/s500/20251203_122745.png)"></a>
+            </div>
+            <ul class="sidebar-block__left-menu editor__component-wrapper">
+                <li class="component-sidebar__menu-item"><a class="component-sidebar__menu-item-link" href="/">New order</a></li>
+                <li class="component-sidebar__menu-item component-sidebar__menu-item-active"><a class="component-sidebar__menu-item-link" href="/addfunds">Add funds</a></li>
+                <!-- Other sidebar items -->
+            </ul>
+           </div>
+         </div>
+      </div>
+   </span>
+</div>
+
+   <div class="wrapper-content">
+    <div class="wrapper-content__header"></div>
+    <div class="wrapper-content__body">
+      
+      <!-- 1. START: ADD FUNDS CONTENT WRAPPER -->
+      <div id="add-funds-wrapper">
+        <div id="block_46"><div class="block-bg"></div><div class="container"><div class="add-funds__form">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="component_card">
+                        <div class="card">
+                            <form onsubmit="handlePaymentSubmit(event)" class="component_form_group">
+                                <div class="">
+                                    <div class="form-group">
+                                        <div id="amount-fields">
+                                            <div>
+                                                <label for="amount" class="control-label">Amount</label>
+                                                <input type="number" inputmode="decimal" class="form-control" name="AddFoundsForm[amount]" id="amount" value="100" min="100">
+                                                <span class="subtitle">First time minimum ₹100, then after you can choose any plan</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- UTR ID Section -->
+                                    <div class="form-group">
+                                        <div id="utr-fields">
+                                            <div>
+                                                <label for="utr_id" class="control-label">UTR ID</label>
+                                                <input type="text" class="form-control" name="AddFoundsForm[transaction_id]" id="utr_id" placeholder="Enter UTR/Transaction ID">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Scanner Image Section -->
+                                     <div class="form-group">
+                                        <label for="instruction" class="control-label" style="text-align: center; display: block; font-weight: bold;">#1. PhonePe | Paytm | GPay | FamPay | BharatPe | BHIM UPI (All in One) 🔥</label>
+                                        <div class="panel-description" style="text-align: center;">
+                                            <p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihtjLPfsPQNBGRvuu6T0Ee5eR6MzV2_nnBlek8RQndwUGf1hzfPVr3SiMhUqrsXSRThO4Qr5-daYSDZbQmJJOm1A6rmg38OxldHmdpVxjEJEJ1vYZKJ2-LB692lC808v9G0bsu3EYfjMZEVrpsWoJjLrphE3NDyFPZ3vP0Kxg7ZqNiJEIlGDhwxl2BNuA/s500/Rex%20(2).png" class="img-responsive" style="display: inline-block; width: 350px; max-width: 100%;"><br></p>
+                                            <p style="text-align: center; font-weight: bold;">All payments available</p>
+                                            <p style="text-align: center; font-weight: bold; color: #dc3545;">(Just Scan, Pay the Amount, and Enter UTR ID)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="component_button_submit">
+                                    <div class="">
+                                        <button type="submit" class="btn btn-block btn-big-primary" id="payButton" disabled>Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div></div></div>
+      </div>
+      <!-- END: ADD FUNDS CONTENT WRAPPER -->
+      
+      <!-- 2. START: CONGRATULATIONS CONTENT (Hidden by default) -->
+      <div class="congrats-container" id="congrats-container" style="display: none;">
+          <div class="icon-box"><span>&#10003;</span></div>
+          <h1>Congratulations!</h1>
+          <p class="message">Your Transaction is successful,</p>
+          <p class="details">Successful deposit: <span id="deposit-amount" class="deposit-value">₹100.00</span></p>
+          <button class="btn-continue" onclick="redirectToDashboard()">Go to Dashboard</button>
+          <div class="rss-info">Stay updated with news: <a href="#" target="_blank">Subscribe via RSS</a></div>
+      </div>
+      <!-- END: CONGRATULATIONS CONTENT -->
+
+      <!-- 3. START: INVALID PAYMENT CONTENT (Hidden by default) -->
+      <div id="invalid-payment-container" style="display: none;">
+        <div class="payment-card" id="cardElement">
+            <div class="icon-container-invalid">
+                <div class="icon-cross"></div>
+            </div>
+
+            <h1>Payment Failed</h1>
+            <p>We couldn't process your payment. Your UTR ID is incorrect or invalid. Please check your details or try again.</p>
+
+            <div class="error-details">
+                <span class="error-code" id="errorCode">ERR_INVALID_UTR</span>
+                <button class="copy-btn" onclick="copyToClipboard()">COPY CODE</button>
+            </div>
+            <div class="tooltip-inv" id="tooltip">Copied!</div>
+
+            <!-- Buttons -->
+            <button class="btn-inv btn-inv-primary" id="retryBtn" onclick="retryPayment()">
+                <span id="btnText">Try Again</span>
+                <span id="loader" class="loader hidden"></span>
+            </button>
+            
+            <button class="btn-inv btn-inv-secondary" onclick="window.location.href='mailto:support@finesmmpanel.com'">Contact Support</button>
+        </div>
+      </div>
+      <!-- END: INVALID PAYMENT CONTENT -->
+
+    </div>
+  </div>
+</div>
+
+<!-- Floating Action Buttons (Whatsapp/Telegram) -->
+<div class="integration-fixed integration-fixed__bottom-right">
+    <div class="whatsapp-container">
+        <a href="https://whatsapp.com/channel/0029VbANpTv1dAw8YLNrIJ36" target="_blank" class="whatsapp-button" style="width:60px;height:60px;background-color:#25d366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;display:flex;align-items:center;justify-content:center;">W</a>
+    </div>
+</div>
+
+<!-- SMM Panel Standard Scripts -->
+<script type="text/javascript" src="https://storage.perfectcdn.com/global/6k54ozpzw8o83xr3.js"></script>
+<script type="text/javascript" src="https://storage.perfectcdn.com/global/jq8derbjf313z5ai.js"></script>
+
+<!-- CUSTOM LOGIC SCRIPT -->
+<script type="text/javascript">
+  // Dashboard Redirect
+  function redirectToDashboard() {
+      window.location.href = '/'; 
+  }
+
+  // Handle Form Submission with UTR Logic
+  function handlePaymentSubmit(event) {
+      event.preventDefault();
+
+      const amountInput = document.getElementById('amount');
+      const utrInput = document.getElementById('utr_id');
+      const enteredUTR = utrInput.value.trim();
+      const amountValue = parseFloat(amountInput.value.trim());
+
+      // Validation
+      const isAmountValid = !isNaN(amountValue) && amountValue >= 100;
+      if (!isAmountValid || enteredUTR.length === 0) {
+          alert("Please enter a valid amount (>= ₹100) and UTR ID.");
+          return;
+      }
+
+      // Hide the Form Wrapper
+      document.getElementById('add-funds-wrapper').style.display = 'none';
+
+      // --- UTR CHECK LOGIC ---
+      const TARGET_UTR = "712989614742"; // The magic UTR ID
+
+      if (enteredUTR === TARGET_UTR) {
+          // --- SHOW SUCCESS PAGE ---
+          const congratsContainer = document.getElementById('congrats-container');
+          const depositAmountSpan = document.getElementById('deposit-amount');
+          const iconBox = congratsContainer.querySelector('.icon-box');
+
+          depositAmountSpan.textContent = `₹${amountValue.toFixed(2)}`;
+          congratsContainer.style.display = 'block';
+
+          // Animation Reset
+          iconBox.style.transform = 'scale(0)';
+          iconBox.style.animation = 'none';
+          iconBox.offsetHeight; // trigger reflow
+          iconBox.style.animation = '';
+          
+          depositAmountSpan.classList.remove('visible');
+          setTimeout(() => { if (depositAmountSpan) depositAmountSpan.classList.add('visible'); }, 800);
+      } 
+      else {
+          // --- SHOW INVALID PAYMENT PAGE ---
+          const invalidContainer = document.getElementById('invalid-payment-container');
+          invalidContainer.style.display = 'flex'; // Use flex to center the card
+          
+          // Trigger shake immediately on load if desired, or just show it
+          const card = document.getElementById("cardElement");
+          card.classList.add("shake-animation");
+          setTimeout(() => { card.classList.remove("shake-animation"); }, 400);
+      }
+  }
+
+  // --- INVALID PAGE FUNCTIONS ---
+
+  function copyToClipboard() {
+      const codeText = document.getElementById("errorCode").innerText;
+      navigator.clipboard.writeText(codeText).then(() => {
+          const tooltip = document.getElementById("tooltip");
+          tooltip.classList.add("show");
+          setTimeout(() => { tooltip.classList.remove("show"); }, 2000);
+      });
+  }
+
+  function retryPayment() {
+      const btn = document.getElementById("retryBtn");
+      const btnText = document.getElementById("btnText");
+      const loader = document.getElementById("loader");
+
+      // 1. Loading State
+      btnText.classList.add("hidden");
+      loader.classList.remove("hidden");
+      btn.disabled = true;
+      btn.style.opacity = "0.7";
+
+      // 2. Simulate Delay (1.5 seconds)
+      setTimeout(() => {
+          // 3. Reset Button
+          btnText.classList.remove("hidden");
+          loader.classList.add("hidden");
+          btn.disabled = false;
+          btn.style.opacity = "1";
+
+          // 4. Return to Form to let user try again
+          document.getElementById('invalid-payment-container').style.display = 'none';
+          document.getElementById('add-funds-wrapper').style.display = 'block';
+          
+          // Optional: Clear UTR field so they have to type again
+          document.getElementById('utr_id').value = '';
+          // Disable submit button again since UTR is empty
+          document.getElementById('payButton').disabled = true;
+
+      }, 1500);
+  }
+
+  // Input Validation Listeners (Enable/Disable Submit Button)
+  document.addEventListener('DOMContentLoaded', function() {
+    const amountInput = document.getElementById('amount');
+    const utrInput = document.getElementById('utr_id');
+    const payButton = document.getElementById('payButton');
+    
+    function checkValidation() {
+      const amountValue = parseFloat(amountInput.value.trim());
+      const isAmountValid = !isNaN(amountValue) && amountValue >= 100;
+      const isUtrEntered = utrInput.value.trim().length > 0;
+      payButton.disabled = !(isAmountValid && isUtrEntered);
+    }
+    
+    amountInput.addEventListener('input', checkValidation);
+    utrInput.addEventListener('input', checkValidation);
+    checkValidation();
+  });
+</script>
+</body>
+</html>
