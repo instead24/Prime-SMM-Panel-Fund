@@ -50,220 +50,169 @@
         100% { box-shadow: 0 0 12px rgba(0, 123, 255, 0.8); }
     }
 
-    /* --- CONGRATULATIONS PAGE STYLES --- */
-    :root {
-        --success-color: #28a745;
-        --primary-text: #343a40;
-        --secondary-text: #6c757d;
-        --circle-color: #007bff; 
-    }
-    .congrats-container {
-        width: 90%;
-        max-width: 500px;
-        padding: 40px 30px;
-        background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        animation: fadeIn 0.8s ease-out;
-        margin: 50px auto;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .icon-box {
-        width: 80px;
-        height: 80px;
-        background-color: var(--circle-color);
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0 auto 25px;
-        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4); 
-        transform: scale(0); 
-        animation: scaleIn 0.5s forwards 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-    @keyframes scaleIn { to { transform: scale(1); } }
-    .icon-box span { color: #fff; font-size: 40px; font-weight: bold; }
-    .congrats-container h1 { color: var(--success-color); font-size: 2.2rem; margin-bottom: 10px; }
-    .message { font-size: 1.2rem; margin-bottom: 5px; color: var(--primary-text); }
-    .details {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--success-color);
-        margin-bottom: 30px;
-        background-color: rgba(40, 167, 69, 0.05);
-        padding: 10px;
-        border-radius: 5px;
-    }
-    .btn-continue {
-        background-color: var(--circle-color);
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 1rem;
-        font-weight: 600;
-        transition: background-color 0.3s ease, transform 0.1s ease;
-        width: 100%;
-        max-width: 250px;
-        margin-top: 20px;
-    }
-    .btn-continue:hover { background-color: #0056b3; transform: translateY(-2px); }
-    .rss-info { margin-top: 30px; font-size: 0.85rem; color: var(--secondary-text); }
-    .rss-info a { color: var(--secondary-text); text-decoration: underline; transition: color 0.3s; }
-    .rss-info a:hover { color: var(--primary-text); }
-    .deposit-value { opacity: 0; transition: opacity 0.5s ease-in; display: inline-block; }
-    .deposit-value.visible { opacity: 1; }
-
-    /* --- INVALID PAYMENT PAGE STYLES (Integrated) --- */
-    /* Scoped specific variables for invalid container */
-    #invalid-payment-container {
-        --inv-card-bg: #ffffff;
-        --inv-text-main: #1f2937;
-        --inv-text-secondary: #6b7280;
-        --inv-error-red: #ef4444;
-        --inv-error-bg: #fef2f2;
-        --inv-primary-blue: #3b82f6;
-        --inv-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        margin-top: 20px;
+    /* --- CONGRATULATIONS PAGE STYLES (UPDATED) --- */
+    #step-three-congrats {
+        position: fixed; 
+        top: 0; left: 0;
+        width: 100%; height: 100vh;
+        background-color: rgba(248, 249, 250, 0.95);
+        backdrop-filter: blur(5px);
+        display: flex; justify-content: center; align-items: center;
+        z-index: 10000; 
+        display: none; opacity: 0;
+        transition: opacity 0.5s ease-in-out;
     }
 
-    .payment-card {
-        background: var(--inv-card-bg);
-        width: 100%;
-        max-width: 420px;
+    .congrats-card {
+        background: white;
         padding: 40px;
         border-radius: 20px;
-        box-shadow: var(--inv-shadow);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        text-align: center;
+        max-width: 450px;
+        width: 90%;
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    .animate-pop-in {
+        animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    }
+
+    @keyframes popIn {
+        0% { transform: scale(0.8); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .checkmark-circle {
+        width: 80px; height: 80px; margin: 0 auto 20px;
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        border-radius: 50%;
+        background-color: #d4edda;
+    }
+    .checkmark-circle svg {
+        width: 50px; height: 50px;
+        margin-top: 15px;
+        display: block; margin-left: auto; margin-right: auto;
+    }
+    .checkmark-path {
+        stroke: #28a745; stroke-width: 5; stroke-linecap: round;
+        fill: none; stroke-dasharray: 1000; stroke-dashoffset: 1000;
+        animation: dash 2s ease-in-out forwards;
+    }
+    @keyframes dash {
+        to { stroke-dashoffset: 0; }
+    }
+
+    .congrats-title {
+        color: #28a745; font-size: 28px; font-weight: 800;
+        margin-bottom: 10px; opacity: 0; transform: translateY(20px);
+        animation: fadeInUp 0.5s ease forwards 0.3s;
+    }
+    .congrats-desc {
+        color: #6c757d; font-size: 16px; margin-bottom: 20px;
+        opacity: 0; transform: translateY(20px);
+        animation: fadeInUp 0.5s ease forwards 0.4s;
+    }
+    .amount-badge {
+        background: #e8f5e9; color: #28a745;
+        padding: 8px 15px; border-radius: 50px;
+        font-weight: bold; font-size: 18px; display: inline-block;
+        margin-bottom: 30px;
+        opacity: 0; transform: translateY(20px);
+        animation: fadeInUp 0.5s ease forwards 0.5s;
+    }
+
+    .action-buttons {
+        display: flex; gap: 10px; flex-direction: column;
+        opacity: 0; transform: translateY(20px);
+        animation: fadeInUp 0.5s ease forwards 0.6s;
+    }
+    
+    .btn-dashboard {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        color: #ffffff !important; 
+        border: none; padding: 12px; border-radius: 8px;
+        font-weight: 600; cursor: pointer; transition: transform 0.2s;
+        text-decoration: none; display: block;
+    }
+    .btn-dashboard:hover { 
+        transform: translateY(-2px); 
+        box-shadow: 0 5px 15px rgba(0,123,255,0.3); 
+        color: #ffffff !important; 
+    }
+    
+    @keyframes fadeInUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    #confetti-canvas {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none; z-index: 9999;
+    }
+
+    /* --- INVALID PAYMENT PAGE STYLES --- */
+    #step-error-payment {
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 100vh;
+        background-color: #f0f2f5;
+        background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+        background-size: 20px 20px;
+        display: flex; justify-content: center; align-items: center;
+        z-index: 10001; 
+        display: none; opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .payment-card-error {
+        background: #ffffff;
+        width: 90%; max-width: 420px;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         text-align: center;
         position: relative;
         overflow: hidden;
-        transition: transform 0.2s;
+    }
+    .payment-card-error::before {
+        content: ''; position: absolute; top: 0; left: 0;
+        width: 100%; height: 6px; background: #ef4444;
     }
 
-    .payment-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 6px;
-        background: var(--inv-error-red);
-    }
-
-    .icon-container-invalid {
-        width: 80px;
-        height: 80px;
-        background-color: var(--inv-error-bg);
+    .icon-container-error {
+        width: 80px; height: 80px;
+        background-color: #fef2f2;
         border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: flex; justify-content: center; align-items: center;
         margin: 0 auto 20px auto;
         position: relative;
     }
-
-    .icon-cross {
-        width: 40px;
-        height: 40px;
-        position: relative;
-    }
-
+    .icon-cross { width: 40px; height: 40px; position: relative; }
     .icon-cross::before, .icon-cross::after {
-        content: '';
-        position: absolute;
-        width: 4px;
-        height: 40px;
-        background-color: var(--inv-error-red);
-        border-radius: 2px;
-        left: 50%;
-        top: 0;
+        content: ''; position: absolute; width: 4px; height: 40px;
+        background-color: #ef4444; border-radius: 2px; left: 50%; top: 0;
     }
-
     .icon-cross::before { transform: translateX(-50%) rotate(45deg); }
     .icon-cross::after { transform: translateX(-50%) rotate(-45deg); }
 
-    .payment-card h1 {
-        color: var(--inv-text-main);
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
-
-    .payment-card p {
-        color: var(--inv-text-secondary);
-        font-size: 15px;
-        line-height: 1.5;
-        margin-bottom: 25px;
-    }
+    .error-title { color: #1f2937; font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+    .error-desc { color: #6b7280; font-size: 15px; line-height: 1.5; margin-bottom: 25px; }
 
     .error-details {
-        background-color: #f8fafc;
-        border: 1px dashed #cbd5e1;
-        border-radius: 8px;
-        padding: 12px;
-        margin-bottom: 25px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        background-color: #f8fafc; border: 1px dashed #cbd5e1;
+        border-radius: 8px; padding: 12px; margin-bottom: 25px;
+        display: flex; justify-content: space-between; align-items: center;
     }
+    .error-code { font-family: 'Courier New', monospace; font-size: 13px; color: #6b7280; font-weight: 600; }
+    .copy-btn { background: none; border: none; color: #3b82f6; font-size: 12px; cursor: pointer; font-weight: 600; }
 
-    .error-code {
-        font-family: 'Courier New', monospace;
-        font-size: 13px;
-        color: var(--inv-text-secondary);
-        font-weight: 600;
-    }
-
-    .copy-btn {
-        background: none;
-        border: none;
-        color: var(--inv-primary-blue);
-        font-size: 12px;
-        cursor: pointer;
-        font-weight: 600;
-    }
-    .copy-btn:hover { text-decoration: underline; }
-
-    .btn-inv {
-        width: 100%;
-        padding: 14px;
-        border-radius: 10px;
-        border: none;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-
-    .btn-inv-primary {
-        background-color: var(--inv-text-main);
-        color: white;
-        margin-bottom: 12px;
-    }
-    .btn-inv-primary:hover {
-        background-color: black;
-        transform: translateY(-1px);
-    }
-    .btn-inv-secondary {
-        background-color: transparent;
-        color: var(--inv-text-secondary);
-        border: 1px solid #e5e7eb;
-    }
-    .btn-inv-secondary:hover {
-        background-color: #f9fafb;
-        color: var(--inv-text-main);
-    }
-
+    .btn-error { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+    .btn-error-primary { background-color: #1f2937; color: white; margin-bottom: 12px; }
+    .btn-error-primary:hover { background-color: black; }
+    .btn-error-secondary { background-color: transparent; color: #6b7280; border: 1px solid #e5e7eb; }
+    
     @keyframes shake {
         0% { transform: translateX(0); }
         25% { transform: translateX(-10px); }
@@ -272,42 +221,17 @@
         100% { transform: translateX(0); }
     }
     .shake-animation { animation: shake 0.4s ease-in-out; }
-
     .loader {
-        display: none;
-        width: 18px;
-        height: 18px;
-        border: 2px solid #fff;
-        border-bottom-color: transparent;
-        border-radius: 50%;
-        display: inline-block;
-        box-sizing: border-box;
-        animation: rotation 1s linear infinite;
+        display: none; width: 18px; height: 18px; border: 2px solid #fff;
+        border-bottom-color: transparent; border-radius: 50%;
+        animation: rotation 1s linear infinite; display: inline-block;
     }
-    @keyframes rotation {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    .hidden { display: none; }
-    
-    .tooltip-inv {
-        position: absolute;
-        background: #333;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 4px;
-        font-size: 11px;
-        top: 145px;
-        right: 50px;
-        opacity: 0;
-        transition: opacity 0.3s;
-        pointer-events: none;
-    }
-    .tooltip-inv.show { opacity: 1; }
+    @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .hidden { display: none !important; }
 
   </style>
 
-  <!-- External scripts/styles from original -->
+  <!-- External scripts/styles -->
   <link rel="stylesheet" type="text/css" href="https://storage.perfectcdn.com/global/atg8oy6k63y60mi2.css">
   <link rel="stylesheet" type="text/css" href="https://storage.perfectcdn.com/c0sbr3/p83lkt1rba78cs7w.css">
   <script>window.modules = {};</script>
@@ -315,7 +239,7 @@
 
 <body class="body body-internal">
 <div class="wrapper wrapper-sidebar-navbar">
-   <!-- Navbar & Sidebar Code (Minimizing for brevity as it was standard SMM panel code) -->
+   <!-- Navbar & Sidebar Code -->
    <div id="block_52" class="component_private_navbar">
     <span class="component_private_navbar ">
       <div class="component-navbar-private__wrapper component_private_sidebar ">
@@ -338,7 +262,6 @@
                         <ul class="navbar-nav navbar-nav-sidebar-menu">
                             <li class="nav-item component-navbar-nav-item component-navbar-private-nav-item"><a class="component-navbar-nav-link component-navbar-nav-link__navbar-private" href="https://prime-smm-panel.vercel.app/#dashboard">New order</a></li>
                             <li class="nav-item component-navbar-nav-item component-navbar-private-nav-item"><a class="component-navbar-nav-link component-navbar-nav-link__navbar-private component-navbar-nav-link-active__navbar-private" href="https://instead24.github.io/Prime-SMM-Panel-Fund/">Add funds</a></li>
-                            <!-- Other menu items -->
                         </ul>
                      </div>
                   </div>
@@ -357,7 +280,6 @@
             <ul class="sidebar-block__left-menu editor__component-wrapper">
                 <li class="component-sidebar__menu-item"><a class="component-sidebar__menu-item-link" href="/">New order</a></li>
                 <li class="component-sidebar__menu-item component-sidebar__menu-item-active"><a class="component-sidebar__menu-item-link" href="/addfunds">Add funds</a></li>
-                <!-- Other sidebar items -->
             </ul>
            </div>
          </div>
@@ -388,12 +310,13 @@
                                         </div>
                                     </div>
 
-                                    <!-- UTR ID Section -->
-                                    <div class="form-group">
+                                    <!-- Transaction ID Section (UPDATED) -->
+                                    <div class="form-group" style="margin-top: 15px;">
                                         <div id="utr-fields">
                                             <div>
-                                                <label for="utr_id" class="control-label">UTR ID</label>
-                                                <input type="text" class="form-control" name="AddFoundsForm[transaction_id]" id="utr_id" placeholder="Enter UTR/Transaction ID">
+                                                <label for="txn_id" class="control-label">Transaction ID</label>
+                                                <input type="text" class="form-control" name="AddFoundsForm[transaction_id]" id="txn_id" placeholder="Enter Transaction ID">
+                                                <span class="subtitle" style="color: #dc3545;">* Compulsory for Payment Verification</span>
                                             </div>
                                         </div>
                                     </div>
@@ -404,7 +327,7 @@
                                         <div class="panel-description" style="text-align: center;">
                                             <p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihtjLPfsPQNBGRvuu6T0Ee5eR6MzV2_nnBlek8RQndwUGf1hzfPVr3SiMhUqrsXSRThO4Qr5-daYSDZbQmJJOm1A6rmg38OxldHmdpVxjEJEJ1vYZKJ2-LB692lC808v9G0bsu3EYfjMZEVrpsWoJjLrphE3NDyFPZ3vP0Kxg7ZqNiJEIlGDhwxl2BNuA/s500/Rex%20(2).png" class="img-responsive" style="display: inline-block; width: 350px; max-width: 100%;"><br></p>
                                             <p style="text-align: center; font-weight: bold;">All payments available</p>
-                                            <p style="text-align: center; font-weight: bold; color: #dc3545;">(Just Scan, Pay the Amount, and Enter UTR ID)</p>
+                                            <p style="text-align: center; font-weight: bold; color: #dc3545;">(Just Scan, Pay the Amount, and Enter Details)</p>
                                         </div>
                                     </div>
                                 </div>
@@ -423,49 +346,57 @@
       </div>
       <!-- END: ADD FUNDS CONTENT WRAPPER -->
       
-      <!-- 2. START: CONGRATULATIONS CONTENT (Hidden by default) -->
-      <div class="congrats-container" id="congrats-container" style="display: none;">
-          <div class="icon-box"><span>&#10003;</span></div>
-          <h1>Congratulations!</h1>
-          <p class="message">Your Transaction is successful,</p>
-          <p class="details">Successful deposit: <span id="deposit-amount" class="deposit-value">₹100.00</span></p>
-          <button class="btn-continue" onclick="redirectToDashboard()">Go to Dashboard</button>
-          <div class="rss-info">Stay updated with news: <a href="https://prime-smm-panel.vercel.app/" target="_blank">Subscribe via RSS</a></div>
-      </div>
-      <!-- END: CONGRATULATIONS CONTENT -->
+      <!-- 2. START: SUCCESS CONGRATS PAGE (UPDATED) -->
+      <div id="step-three-congrats">
+          <canvas id="confetti-canvas"></canvas>
+          <div class="congrats-card" id="congratsCard">
+              <div class="checkmark-circle">
+                  <svg viewBox="0 0 52 52">
+                      <path class="checkmark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                  </svg>
+              </div>
+              <h1 class="congrats-title">Payment Successful!</h1>
+              <p class="congrats-desc">Your funds have been securely added to your account.</p>
+              
+              <div class="amount-badge">
+                  Added: <span id="deposit-amount">₹0.00</span>
+              </div>
 
-      <!-- 3. START: INVALID PAYMENT CONTENT (Hidden by default) -->
-      <div id="invalid-payment-container" style="display: none;">
-        <div class="payment-card" id="cardElement">
-            <div class="icon-container-invalid">
+              <div class="action-buttons">
+                  <a href="https://prime-smm-panel.vercel.app/" class="btn-dashboard">Go to Dashboard</a>
+              </div>
+          </div>
+      </div>
+
+      <!-- 3. START: INVALID PAYMENT PAGE (UPDATED) -->
+      <div id="step-error-payment">
+        <div class="payment-card-error" id="cardElement">
+            <div class="icon-container-error">
                 <div class="icon-cross"></div>
             </div>
-
-            <h1>Payment Failed</h1>
-            <p>We couldn't process your payment. Your UTR ID is incorrect or invalid. Please check your details or try again.</p>
-
+    
+            <h1 class="error-title">Payment Failed</h1>
+            <p class="error-desc">We couldn't process your payment. The Transaction ID provided is invalid or does not match our records.</p>
+    
             <div class="error-details">
-                <span class="error-code" id="errorCode">ERR_INVALID_UTR</span>
-                <button class="copy-btn" onclick="copyToClipboard()">COPY CODE</button>
+                <span class="error-code" id="errorCode">ERR_INVALID_TXN</span>
+                <button class="copy-btn" onclick="copyErrorToClipboard()">COPY CODE</button>
             </div>
-            <div class="tooltip-inv" id="tooltip">Copied!</div>
-
-            <!-- Buttons -->
-            <button class="btn-inv btn-inv-primary" id="retryBtn" onclick="retryPayment()">
+    
+            <button class="btn-error btn-error-primary" id="retryBtn" onclick="retryPayment()">
                 <span id="btnText">Try Again</span>
-                <span id="loader" class="loader hidden"></span>
+                <span id="loader" class="loader"></span>
             </button>
             
-            <button class="btn-inv btn-inv-secondary" onclick="window.location.href='mailto:support@finesmmpanel.com'">Contact Support</button>
+            <button class="btn-error btn-error-secondary" onclick="window.location.reload()">Contact Support</button>
         </div>
       </div>
-      <!-- END: INVALID PAYMENT CONTENT -->
 
     </div>
   </div>
 </div>
 
-<!-- Floating Action Buttons (Whatsapp/Telegram) -->
+<!-- Floating Action Buttons -->
 <div class="integration-fixed integration-fixed__bottom-right">
     <div class="whatsapp-container">
         <a href="https://whatsapp.com/channel/0029VbANpTv1dAw8YLNrIJ36" target="_blank" class="whatsapp-button" style="width:60px;height:60px;background-color:#25d366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;display:flex;align-items:center;justify-content:center;">W</a>
@@ -478,72 +409,107 @@
 
 <!-- CUSTOM LOGIC SCRIPT -->
 <script type="text/javascript">
-  // Dashboard Redirect
-  function redirectToDashboard() {
-      // UPDATED LINK HERE
-      window.location.href = 'https://prime-smm-panel.vercel.app/'; 
-  }
 
-  // Handle Form Submission with UTR Logic
+  // --- CONFETTI ANIMATION ---
+  const startConfetti = () => {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const pieces = [];
+        const numberOfPieces = 100;
+        const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8'];
+
+        for (let i = 0; i < numberOfPieces; i++) {
+            pieces.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                rotation: Math.random() * 360,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                size: Math.random() * 10 + 5,
+                speed: Math.random() * 3 + 2
+            });
+        }
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pieces.forEach(p => {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+                p.y += p.speed;
+                p.rotation += 2;
+                if (p.y > canvas.height) p.y = -20;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    };
+
+  // Handle Form Submission
   function handlePaymentSubmit(event) {
       event.preventDefault();
 
       const amountInput = document.getElementById('amount');
-      const utrInput = document.getElementById('utr_id');
-      const enteredUTR = utrInput.value.trim();
+      const txnInput = document.getElementById('txn_id'); // Changed from utr_id to txn_id
+      const enteredTxn = txnInput.value.trim();
       const amountValue = parseFloat(amountInput.value.trim());
 
       // Validation
       const isAmountValid = !isNaN(amountValue) && amountValue >= 100;
-      if (!isAmountValid || enteredUTR.length === 0) {
-          alert("Please enter a valid amount (>= ₹100) and UTR ID.");
+      if (!isAmountValid || enteredTxn.length === 0) {
+          alert("Please enter a valid amount (>= ₹100) and Transaction ID.");
           return;
       }
 
-      // Hide the Form Wrapper
-      document.getElementById('add-funds-wrapper').style.display = 'none';
+      // Show Loading on Button
+      const submitBtn = document.getElementById('payButton');
+      submitBtn.innerText = "Processing...";
+      submitBtn.disabled = true;
 
-      // --- UTR CHECK LOGIC ---
-      const TARGET_UTR = "712989614742"; // The magic UTR ID
+      setTimeout(() => {
+          // Hide the Form Wrapper
+          document.getElementById('add-funds-wrapper').style.display = 'none';
 
-      if (enteredUTR === TARGET_UTR) {
-          // --- SHOW SUCCESS PAGE ---
-          const congratsContainer = document.getElementById('congrats-container');
-          const depositAmountSpan = document.getElementById('deposit-amount');
-          const iconBox = congratsContainer.querySelector('.icon-box');
+          // --- TRANSACTION ID CHECK LOGIC ---
+          const TARGET_TXN = "T2512060817226975369510"; // Updated Target
 
-          depositAmountSpan.textContent = `₹${amountValue.toFixed(2)}`;
-          congratsContainer.style.display = 'block';
+          if (enteredTxn === TARGET_TXN) {
+              // --- SHOW SUCCESS PAGE ---
+              const congratsContainer = document.getElementById('step-three-congrats');
+              const congratsCard = document.getElementById('congratsCard');
+              const depositAmountSpan = document.getElementById('deposit-amount');
 
-          // Animation Reset
-          iconBox.style.transform = 'scale(0)';
-          iconBox.style.animation = 'none';
-          iconBox.offsetHeight; // trigger reflow
-          iconBox.style.animation = '';
-          
-          depositAmountSpan.classList.remove('visible');
-          setTimeout(() => { if (depositAmountSpan) depositAmountSpan.classList.add('visible'); }, 800);
-      } 
-      else {
-          // --- SHOW INVALID PAYMENT PAGE ---
-          const invalidContainer = document.getElementById('invalid-payment-container');
-          invalidContainer.style.display = 'flex'; // Use flex to center the card
-          
-          // Trigger shake immediately on load if desired, or just show it
-          const card = document.getElementById("cardElement");
-          card.classList.add("shake-animation");
-          setTimeout(() => { card.classList.remove("shake-animation"); }, 400);
-      }
+              depositAmountSpan.textContent = `₹${amountValue.toFixed(2)}`;
+              congratsContainer.style.display = 'flex';
+              
+              // Animation
+              setTimeout(() => { 
+                 congratsContainer.style.opacity = '1';
+                 congratsCard.classList.add('animate-pop-in'); 
+                 startConfetti(); 
+              }, 10);
+          } 
+          else {
+              // --- SHOW INVALID PAYMENT PAGE ---
+              const errorContainer = document.getElementById('step-error-payment');
+              errorContainer.style.display = 'flex';
+              setTimeout(() => { errorContainer.style.opacity = '1'; }, 10);
+              
+              const card = document.getElementById("cardElement");
+              card.classList.add("shake-animation");
+              setTimeout(() => { card.classList.remove("shake-animation"); }, 400);
+          }
+      }, 1500);
   }
 
   // --- INVALID PAGE FUNCTIONS ---
-
-  function copyToClipboard() {
+  function copyErrorToClipboard() {
       const codeText = document.getElementById("errorCode").innerText;
       navigator.clipboard.writeText(codeText).then(() => {
-          const tooltip = document.getElementById("tooltip");
-          tooltip.classList.add("show");
-          setTimeout(() => { tooltip.classList.remove("show"); }, 2000);
+          alert("Error code copied: " + codeText);
       });
   }
 
@@ -551,48 +517,53 @@
       const btn = document.getElementById("retryBtn");
       const btnText = document.getElementById("btnText");
       const loader = document.getElementById("loader");
+      const errorOverlay = document.getElementById('step-error-payment');
 
       // 1. Loading State
       btnText.classList.add("hidden");
       loader.classList.remove("hidden");
+      loader.style.display = 'inline-block';
       btn.disabled = true;
-      btn.style.opacity = "0.7";
 
-      // 2. Simulate Delay (1.5 seconds)
+      // 2. Simulate Delay
       setTimeout(() => {
           // 3. Reset Button
           btnText.classList.remove("hidden");
           loader.classList.add("hidden");
+          loader.style.display = 'none';
           btn.disabled = false;
-          btn.style.opacity = "1";
 
-          // 4. Return to Form to let user try again
-          document.getElementById('invalid-payment-container').style.display = 'none';
-          document.getElementById('add-funds-wrapper').style.display = 'block';
-          
-          // Optional: Clear UTR field so they have to type again
-          document.getElementById('utr_id').value = '';
-          // Disable submit button again since UTR is empty
-          document.getElementById('payButton').disabled = true;
+          // 4. Return to Form
+          errorOverlay.style.opacity = '0';
+          setTimeout(() => {
+             errorOverlay.style.display = 'none';
+             document.getElementById('add-funds-wrapper').style.display = 'block';
+             
+             // Reset Form Button
+             const payBtn = document.getElementById('payButton');
+             payBtn.disabled = true;
+             payBtn.innerText = "Submit";
+             
+          }, 300);
 
       }, 1500);
   }
 
-  // Input Validation Listeners (Enable/Disable Submit Button)
+  // Input Validation Listeners
   document.addEventListener('DOMContentLoaded', function() {
     const amountInput = document.getElementById('amount');
-    const utrInput = document.getElementById('utr_id');
+    const txnInput = document.getElementById('txn_id');
     const payButton = document.getElementById('payButton');
     
     function checkValidation() {
       const amountValue = parseFloat(amountInput.value.trim());
       const isAmountValid = !isNaN(amountValue) && amountValue >= 100;
-      const isUtrEntered = utrInput.value.trim().length > 0;
-      payButton.disabled = !(isAmountValid && isUtrEntered);
+      const isTxnEntered = txnInput.value.trim().length > 0;
+      payButton.disabled = !(isAmountValid && isTxnEntered);
     }
     
     amountInput.addEventListener('input', checkValidation);
-    utrInput.addEventListener('input', checkValidation);
+    txnInput.addEventListener('input', checkValidation);
     checkValidation();
   });
 </script>
