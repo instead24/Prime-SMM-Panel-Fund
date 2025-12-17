@@ -42,6 +42,70 @@
     }
 
     /* ========================================= */
+    /* SLIDER STYLES (NEW)                       */
+    /* ========================================= */
+    .slider-container {
+        max-width: 350px;
+        position: relative;
+        margin: auto;
+    }
+
+    .mySlides {
+        display: none;
+        animation: fadeEffect 0.5s;
+    }
+
+    /* First slide visible by default */
+    .mySlides:first-child {
+        display: block;
+    }
+
+    .qr-img-slide {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 5px;
+        background: white;
+    }
+
+    /* Buttons Container */
+    .slider-dots-container {
+        text-align: center;
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* 1, 2, 3 Buttons */
+    .slider-dot {
+        cursor: pointer;
+        height: 35px;
+        width: 35px;
+        background-color: #e9ecef;
+        color: #333;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        border: 1px solid #ced4da;
+    }
+
+    .slider-dot:hover, .slider-dot.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    @keyframes fadeEffect {
+        from {opacity: 0.4} 
+        to {opacity: 1}
+    }
+
+    /* ========================================= */
     /* SHARED FULL-SCREEN OVERLAY STYLES         */
     /* ========================================= */
     .full-screen-overlay {
@@ -354,12 +418,43 @@
                                         </div>
                                     </div>
 
-                                    <!-- Scanner Image Section -->
+                                    <!-- Scanner Image Section (UPDATED WITH SLIDER) -->
                                      <div class="form-group">
                                         <label for="instruction" class="control-label" style="text-align: center; display: block; font-weight: bold;">PhonePe | Paytm | GPay | FamPay | BharatPe | BHIM UPI (All in One) 🔥</label>
+                                        
                                         <div class="panel-description" style="text-align: center;">
-                                            <p><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihtjLPfsPQNBGRvuu6T0Ee5eR6MzV2_nnBlek8RQndwUGf1hzfPVr3SiMhUqrsXSRThO4Qr5-daYSDZbQmJJOm1A6rmg38OxldHmdpVxjEJEJ1vYZKJ2-LB692lC808v9G0bsu3EYfjMZEVrpsWoJjLrphE3NDyFPZ3vP0Kxg7ZqNiJEIlGDhwxl2BNuA/s500/Rex%20(2).png" class="img-responsive" style="display: inline-block; width: 350px; max-width: 100%;"><br></p>
-                                            <p style="text-align: center; font-weight: bold;">All payments available</p>
+                                            
+                                            <!-- Slider Container -->
+                                            <div class="slider-container">
+                                                <!-- Image 1 -->
+                                                <div class="mySlides">
+                                                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihtjLPfsPQNBGRvuu6T0Ee5eR6MzV2_nnBlek8RQndwUGf1hzfPVr3SiMhUqrsXSRThO4Qr5-daYSDZbQmJJOm1A6rmg38OxldHmdpVxjEJEJ1vYZKJ2-LB692lC808v9G0bsu3EYfjMZEVrpsWoJjLrphE3NDyFPZ3vP0Kxg7ZqNiJEIlGDhwxl2BNuA/s500/Rex%20(2).png" class="qr-img-slide">
+                                                    <p style="margin-top:5px; font-weight:bold;">QR Code 1</p>
+                                                </div>
+
+                                                <!-- Image 2 -->
+                                                <div class="mySlides">
+                                                    <!-- Replace src with your 2nd image URL -->
+                                                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwplHoQEzirVijcBYVmVlov6TAX2eA6Z18Vf45ziO7UJg8JwL20lqU6hzpao1K9hoQmHWOL0ofGE-rUn30Qypg1TdHnIjgmIQGTl4PAzccea3P6MYL1ICMucISTDIWgkj4hlDYQ-k1H6O1hkFW-czhAv-Gii1SrrhMDjF2sjV2goeOoXUBf53KastI1yg/s500/Rex%20(3).png" class="qr-img-slide">
+                                                    <p style="margin-top:5px; font-weight:bold;">QR Code 2</p>
+                                                </div>
+
+                                                <!-- Image 3 -->
+                                                <div class="mySlides">
+                                                    <!-- Replace src with your 3rd image URL -->
+                                                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwplHoQEzirVijcBYVmVlov6TAX2eA6Z18Vf45ziO7UJg8JwL20lqU6hzpao1K9hoQmHWOL0ofGE-rUn30Qypg1TdHnIjgmIQGTl4PAzccea3P6MYL1ICMucISTDIWgkj4hlDYQ-k1H6O1hkFW-czhAv-Gii1SrrhMDjF2sjV2goeOoXUBf53KastI1yg/s500/Rex%20(3).png" class="qr-img-slide">
+                                                    <p style="margin-top:5px; font-weight:bold;">QR Code 3</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Dots -->
+                                            <div class="slider-dots-container">
+                                                <span class="slider-dot active" onclick="currentSlide(1)">1</span>
+                                                <span class="slider-dot" onclick="currentSlide(2)">2</span>
+                                                <span class="slider-dot" onclick="currentSlide(3)">3</span>
+                                            </div>
+
+                                            <p style="text-align: center; font-weight: bold; margin-top: 15px;">All payments available</p>
                                             <p style="text-align: center; font-weight: bold; color: #dc3545;">(Just Scan, Pay the Amount, and Enter Details)</p>
                                         </div>
                                     </div>
@@ -495,6 +590,37 @@
 
 <!-- CUSTOM LOGIC SCRIPT -->
 <script type="text/javascript">
+
+  // --- SLIDER LOGIC (NEW) ---
+  let slideIndex = 1;
+  showSlides(slideIndex);
+
+  function currentSlide(n) {
+      showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("slider-dot");
+      
+      if (n > slides.length) {slideIndex = 1}    
+      if (n < 1) {slideIndex = slides.length}
+      
+      // Hide all slides
+      for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";  
+      }
+      
+      // Remove active class from all dots
+      for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(" active", "");
+      }
+      
+      // Show current slide and activate dot
+      slides[slideIndex-1].style.display = "block";  
+      dots[slideIndex-1].className += " active";
+  }
 
   // --- CONFETTI ANIMATION ---
   const startConfetti = () => {
